@@ -9,7 +9,12 @@ import {
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'SpellingTester',
+    title: 'SPELLING TESTER',
+    headerTitleStyle: {
+      width: "90%",
+      textAlign: 'center',
+      color: "#777"
+    }
   };
 
   constructor(props) {
@@ -26,16 +31,13 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.mainWrapper}>
-          <TouchableOpacity style={styles.button} onPress={this.onTakeTest}>
-            <Text style={styles.buttonText}>Take Test</Text>
+          <TouchableOpacity style={styles.testButton} onPress={this.onTakeTest}>
+          <Text style={styles.buttonText}>Take Test</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigate('Links')}>
-            <Text style={styles.buttonText}>Create Test</Text>
+          
+          <TouchableOpacity style={styles.createButton} onPress={() => navigate('Links')}>
+          <Text style={styles.buttonText}>Create Test</Text>
           </TouchableOpacity>
-          </View>
-        </ScrollView>
       </View>
     );
   }
@@ -46,21 +48,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  contentContainer: {
-    paddingTop: 30,
+  testButton: {
+    flex: 1,
+    backgroundColor: "#42C5F4",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  mainWrapper: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  button: {
-    margin: 10,
-    padding: 20,
-    height: 50,
-    width: '100%',
-    backgroundColor: 'blue',
+  createButton: {
+    flex: 1,
+    backgroundColor: "#48D654",
+    alignItems: "center",
+    justifyContent: "center"
   },
   buttonText: {
+    fontSize: 28,
+    fontWeight: "600",
     color: 'white',
   }
 });
