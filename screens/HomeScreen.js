@@ -16,18 +16,14 @@ export default class HomeScreen extends React.Component {
     super(props)
     this.state = {}
     this.onTakeTest = this.onTakeTest.bind(this)
-    this.onCreateTest = this.onCreateTest.bind(this)
   }
 
   onTakeTest() {
     
   }
 
-  onCreateTest() {
-    
-  }
-
   render() {
+    const {navigate} = this.props.navigation
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -35,7 +31,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity style={styles.button} onPress={this.onTakeTest}>
             <Text style={styles.buttonText}>Take Test</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.onCreateTest}>
+          <TouchableOpacity style={styles.button} onPress={() => navigate('Links')}>
             <Text style={styles.buttonText}>Create Test</Text>
           </TouchableOpacity>
           </View>
