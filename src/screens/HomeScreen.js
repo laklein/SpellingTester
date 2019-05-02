@@ -58,16 +58,15 @@ export default class HomeScreen extends React.Component {
       } else {
         this.setState({ answerResult: null, currentQuestion: nextQuestion })
       }
-      this.setState({ submitButtonText: 'Check' })
+      this.setState({ answerInput: '', submitButtonText: 'Check' })
     } else {
-      if (_.upperCase(answerInput) === _.upperCase(currentQuestion.answer)) {
+      if (_.toUpper(answerInput) === _.toUpper(currentQuestion.answer)) {
         this.setState({ answerResult: 'You are correct!', score: this.state.score + 1 })
       } else {
         this.setState({ answerResult: 'Not quite!' })
       }
       this.setState({ submitButtonText: 'Next' })
     }
-    this.setState({ answerInput: '' })
   }
 
   onRetry() {
