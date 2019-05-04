@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 
-export default class HomeScreen extends React.Component {
+export default class TakeTestScreen extends React.Component {
   static navigationOptions = {
-    title: 'SPELLING TESTER',
+    title: 'TAKE TEST',
     headerTitleStyle: {
       width: "90%",
       textAlign: 'center',
@@ -27,29 +27,20 @@ export default class HomeScreen extends React.Component {
     this.state = {
       answerInput: '',
       answerResult: '',
-      currentQuestion: null,
-      currentTest: null,
+      currentQuestion: this.props.navigation.getParam('currentQuestion'),
       finished: false,
       score: 0,
-      showTests: false,
       submitButtonText: 'Check',
     }
-    this.onTakeTest = this.onTakeTest.bind(this)
     this.onSubmitAnswer = this.onSubmitAnswer.bind(this)
-    this.onSelectTest = this.onSelectTest.bind(this)
     this.onRetry = this.onRetry.bind(this)
   }
 
-  onSelectTest(test) {
-    this.setState({ currentTest: test, currentQuestion: test.questions[0] })
-  }
-
-  onTakeTest() {
-    this.setState({ showTests: true })
-  }
+  
 
   onSubmitAnswer() {
-    const { answerInput, answerResult, currentQuestion, currentTest, submitButtonText } = this.state
+    const { answerInput, answerResult, currentQuestion, submitButtonText } = this.state
+    const currentTest = this.props.navigation.getParam('currentTest')
     if (submitButtonText === 'Next') {
       const currentIndex = _.findIndex(currentTest.questions, { 'id': currentQuestion.id })
       const nextQuestion = _.nth(currentTest.questions, currentIndex + 1)
@@ -68,46 +59,15 @@ export default class HomeScreen extends React.Component {
       this.setState({ submitButtonText: 'Next' })
     }
   }
-
   onRetry() {
     this.setState({
       answerInput: '',
       answerResult: '',
       score: 0,
-      currentQuestion: this.state.currentTest.questions[0],
+      currentQuestion: this.props.navigation.getParam('currentTest').questions[0],
       finished: false,
     })
   }
-
-  renderMenu() {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.testButton} onPress={this.onTakeTest}>
-          <Text style={styles.buttonText}>Take Test</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.createButton} onPress={() => navigate('Links')}>
-          <Text style={styles.buttonText}>Create Test</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  renderTests() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={this.props.screenProps.tests}
-          keyExtractor={item => _.toString(item.id)}
-          renderItem={({item}) =>
-            <TouchableOpacity style={styles.listItem} onPress={() => this.onSelectTest(item) }>
-              <Text style={styles.listText}>{item.name}</Text>
-            </TouchableOpacity>
-          }
-        />
-      </View>
-    )
-  }
-
   renderQuestion() {
     return (
       <View style={styles.container}>
@@ -133,7 +93,7 @@ export default class HomeScreen extends React.Component {
       return (
         <View style={styles.score}>
           <Text style={styles.score}>
-            You got {this.state.score}/{this.state.currentTest.questions.length} correct!
+            You got {this.state.score}/{this.props.navigation.getParam('currentTest').questions.length} correct!
           </Text>
           <TouchableOpacity style={styles.submitButton} onPress={this.onRetry}>
             <Text style={styles.buttonText}>Retry</Text>
@@ -141,27 +101,13 @@ export default class HomeScreen extends React.Component {
         </View>
       )
     }
-    if (!_.isNil(this.state.currentTest)) {
-      return (
-        this.renderQuestion()
-      )
-    }
-    if (this.state.showTests) {
-      return (
-        this.renderTests()
-      )
-    }
     return (
-      this.renderMenu()
+      this.renderQuestion()
     )
   }
-
   render() {
-    const { navigate } = this.props.navigation
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        {this.renderBody()}
-      </TouchableWithoutFeedback>
+      this.renderBody()
     );
   }
 }

@@ -1,18 +1,40 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import {
+  FlatList,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import _ from 'lodash';
 
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
-  };
+    title: 'Manage Tests',
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      testName: '',
+    }
+    
+  }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
+        <TextInput
+          autoCorrect={false}
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({ testName: text })}
+          value={this.state.testName}
+        />
+        
       </ScrollView>
     );
   }
@@ -24,4 +46,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
-});
+  textInput: {
+    height: 40,
+    width: 200,
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
+})
